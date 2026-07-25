@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nitya Zijoo — sketchy portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Kalam:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rough.js/4.6.6/rough.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#F3EEFC;
+    --paper:#FFFDF9;
+    --ink:#232136;
+    --coral:#FF6B6B;
+    --yellow:#FFC93C;
+    --green:#3FA672;
+    --blue:#5B8DEF;
+    --muted:#6B667F;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+    cursor:default;
+  }
+  ::selection{background:var(--yellow);color:var(--ink);}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.01em;}
+  .hand{font-family:'Kalam',cursive;}
+  a{color:inherit;}
+  svg text{font-family:'Kalam',cursive;}
+ 
+  /* faint hand-drawn dot texture on bg */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(var(--ink) 1px, transparent 1px);
+    background-size:26px 26px;opacity:0.04;
+  }
+ 
+  nav{
+    position:sticky;top:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px clamp(20px,5vw,50px);
+    background:var(--bg);
+    border-bottom:2.5px solid var(--ink);
+  }
+  nav .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.2rem;}
+  nav .brand span{color:var(--coral);}
+  nav ul{list-style:none;display:flex;gap:26px;}
+  nav ul a{font-size:0.85rem;font-weight:600;text-decoration:none;color:var(--ink);position:relative;padding-bottom:3px;}
+  nav ul a svg{position:absolute;left:0;bottom:-6px;width:100%;height:8px;opacity:0;transition:opacity .2s;}
+  nav ul a:hover svg{opacity:1;}
+  @media(max-width:720px){ nav ul{display:none;} }
+ 
+  main{position:relative;z-index:2;max-width:920px;margin:0 auto;padding:0 clamp(20px,5vw,40px);}
+ 
+  /* HERO */
+  .hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding-top:20px;position:relative;}
+  .hero .kicker{font-family:'Kalam',cursive;color:var(--coral);font-size:1.05rem;transform:rotate(-2deg);display:inline-block;margin-bottom:6px;}
+  .hero h1{font-size:clamp(2.3rem,7vw,4.3rem);line-height:1.08;}
+  .hero h1 .pop{display:inline-block;position:relative;}
+  .hero h1 .pop.hi{color:var(--coral);}
+  .hero h1 .word{display:inline-block;opacity:0;transform:translateY(24px) rotate(-4deg) scale(0.9);
+    animation:pop-in .7s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes pop-in{to{opacity:1;transform:translateY(0) rotate(0) scale(1);}}
+  .hero p.sub{color:var(--muted);font-size:1.1rem;max-width:520px;margin-top:20px;
+    opacity:0;animation:fadeUp .8s ease forwards;animation-delay:1.1s;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  .hero .cta-row{display:flex;gap:18px;margin-top:34px;flex-wrap:wrap;
+    opacity:0;animation:fadeUp .8s ease forwards;animation-delay:1.3s;}
+ 
+  .btn{
+    position:relative;padding:13px 26px;font-size:0.9rem;font-weight:600;
+    background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;
+    text-decoration:none;color:var(--ink);display:inline-block;
+  }
+  .btn svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;overflow:visible;}
+  .btn.primary{color:var(--ink);}
+  .btn:hover{transform:translateY(-2px) rotate(-0.5deg);}
+  .btn:active{transform:translateY(1px) rotate(0.5deg);}
+ 
+  /* SCROLL SQUIGGLE PATH */
+  #squiggle-wrap{position:absolute;top:0;left:calc(50% - 1px);width:1px;height:100%;z-index:1;pointer-events:none;}
+  #squiggle-wrap svg{position:absolute;top:0;left:50%;transform:translateX(-50%);overflow:visible;}
+  @media(max-width:720px){ #squiggle-wrap{display:none;} }
+ 
+  .chapter{position:relative;padding:110px 0 30px;}
+  .chapter:first-of-type{padding-top:0;}
+  .eyebrow{
+    font-family:'Kalam',cursive;color:var(--blue);font-size:1rem;
+    display:inline-block;margin-bottom:10px;transform:rotate(-1.5deg);
+  }
+  .chapter h2{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:18px;position:relative;display:inline-block;}
+  .chapter h2 .scribble{position:absolute;left:-10px;top:-14px;width:calc(100% + 20px);height:calc(100% + 26px);z-index:-1;opacity:0;transition:opacity .4s;}
+  .chapter h2.in .scribble{opacity:1;}
+  .chapter .lede{color:var(--muted);max-width:620px;font-size:1rem;}
+  .chapter .lede strong{color:var(--ink);font-weight:600;}
+ 
+  /* TOOLS as stickers */
+  .skills-grid{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+  .skill{
+    background:var(--paper);border:2.5px solid var(--ink);
+    padding:10px 16px;border-radius:40px 42px 38px 44px/44px 38px 42px 40px;
+    font-size:0.85rem;font-weight:600;
+    box-shadow:3px 3px 0 var(--ink);
+    transform:rotate(var(--r,-1deg));
+    transition:transform .2s;
+  }
+  .skill:nth-child(3n){--r:1.5deg;border-color:var(--coral);}
+  .skill:nth-child(3n+1){--r:-2deg;border-color:var(--blue);}
+  .skill:nth-child(3n+2){--r:1deg;border-color:var(--green);}
+  .skill:hover{transform:rotate(0deg) scale(1.06);}
+ 
+  /* PROJECTS as taped cards */
+  .projects{margin-top:26px;display:flex;flex-direction:column;gap:26px;}
+  .project{
+    background:var(--paper);border:2.5px solid var(--ink);border-radius:10px;
+    padding:24px 26px;position:relative;
+    box-shadow:5px 5px 0 var(--ink);
+    transform:rotate(var(--r,0deg));
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .project:nth-child(odd){--r:-0.6deg;}
+  .project:nth-child(even){--r:0.5deg;}
+  .project:hover{transform:rotate(0deg) translateY(-4px);box-shadow:7px 8px 0 var(--ink);}
+  .project::before{
+    content:"";position:absolute;top:-10px;left:28px;width:46px;height:18px;
+    background:rgba(255,201,60,0.85);transform:rotate(-4deg);
+    box-shadow:1px 1px 3px rgba(0,0,0,0.2);
+  }
+  .project .p-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .project h3{font-size:1.15rem;}
+  .project .tag{font-family:'Kalam',cursive;font-size:0.85rem;color:var(--coral);white-space:nowrap;}
+  .project p{color:var(--muted);margin-top:8px;font-size:0.92rem;}
+  .project .stack{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+  .project .stack span{font-size:0.68rem;font-weight:600;color:var(--ink);border:1.5px solid var(--ink);padding:3px 9px;border-radius:12px;}
+  .project a.link{display:inline-block;margin-top:12px;font-size:0.82rem;font-weight:700;color:var(--blue);text-decoration:none;}
+  .project a.link:hover{text-decoration:underline wavy;}
+ 
+  /* PAPERS as index cards */
+  .papers{margin-top:24px;display:flex;flex-direction:column;gap:16px;}
+  .paper{padding:18px 22px;background:var(--paper);border:2px dashed var(--ink);border-radius:6px;}
+  .paper .hand{font-size:0.85rem;color:var(--green);}
+  .paper h3{font-size:1.05rem;margin:6px 0;}
+  .paper p{color:var(--muted);font-size:0.9rem;}
+ 
+  footer{padding:130px 0 100px;text-align:center;position:relative;}
+  footer h2{font-size:clamp(1.8rem,5vw,2.8rem);}
+  footer p{color:var(--muted);margin:16px auto 30px;max-width:420px;}
+  .contact-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+  footer .fine{margin-top:70px;color:var(--muted);font-size:0.78rem;font-family:'Kalam',cursive;opacity:0.8;}
+ 
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+ 
+  /* mascot buddy */
+  #buddy{
+    position:fixed;right:26px;bottom:26px;width:78px;height:78px;z-index:200;
+    cursor:pointer;filter:drop-shadow(2px 3px 0 rgba(35,33,54,0.25));
+    transition:transform .15s;
+  }
+  #buddy:active{transform:scale(0.92);}
+  #buddy-bubble{
+    position:fixed;right:26px;bottom:112px;z-index:200;
+    background:var(--paper);border:2px solid var(--ink);border-radius:14px;
+    padding:8px 14px;font-family:'Kalam',cursive;font-size:0.85rem;
+    box-shadow:3px 3px 0 var(--ink);
+    opacity:0;transform:translateY(6px) scale(0.9);pointer-events:none;
+    transition:opacity .25s, transform .25s;max-width:200px;
+  }
+  #buddy-bubble.show{opacity:1;transform:translateY(0) scale(1);}
+  @media(max-width:600px){ #buddy{width:60px;height:60px;right:14px;bottom:14px;} #buddy-bubble{right:14px;bottom:82px;} }
+ 
+  @media(prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    .hero h1 .word{animation:none;opacity:1;transform:none;}
+    .hero p.sub,.hero .cta-row{animation:none;opacity:1;}
+  }
+</style>
+</head>
+<body>
+ 
+<nav>
+  <div class="brand">N<span>·</span>Z</div>
+  <ul>
+    <li><a href="#origin">Origin<svg viewBox="0 0 60 8"><path d="M2,5 Q20,1 30,5 T58,4" stroke="var(--coral)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></a></li>
+    <li><a href="#tools">Tools<svg viewBox="0 0 50 8"><path d="M2,5 Q18,1 25,5 T48,4" stroke="var(--blue)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></a></li>
+    <li><a href="#trials">Trials<svg viewBox="0 0 55 8"><path d="M2,5 Q20,1 27,5 T53,4" stroke="var(--green)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></a></li>
+    <li><a href="#allies">Allies<svg viewBox="0 0 55 8"><path d="M2,5 Q20,1 27,5 T53,4" stroke="var(--yellow)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></a></li>
+    <li><a href="#return">Return<svg viewBox="0 0 55 8"><path d="M2,5 Q20,1 27,5 T53,4" stroke="var(--coral)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></a></li>
+  </ul>
+</nav>
+ 
+<div id="squiggle-wrap"><svg id="squiggle-svg" width="40" preserveAspectRatio="none"></svg></div>
+ 
+<main>
+ 
+  <section class="hero" id="hero">
+    <span class="kicker hand">// the origin story of an ML pipeline</span>
+    <h1 id="heroTitle">
+      <span class="word">Every</span> <span class="word">model</span> <span class="word">starts</span>
+      <span class="word pop hi">messy.</span><br>
+      <span class="word">So</span> <span class="word">did</span> <span class="word">I.</span>
+    </h1>
+    <p class="sub">I'm Nitya — a B.Tech CS (AI/ML) student, two-time published researcher, and someone who has broken far more pipelines than she's shipped. This is the log of how the pipelines started working.</p>
+    <div class="cta-row">
+      <button class="btn primary" id="ctaProjects"><svg id="btnSvg1"></svg>See the projects ↓</button>
+      <a class="btn" href="#return" id="ctaContact"><svg id="btnSvg2"></svg>Get in touch</a>
+    </div>
+  </section>
+ 
+  <section class="chapter reveal" id="origin">
+    <span class="eyebrow hand">chapter one — ordinary world</span>
+    <h2><span class="txt">Where the trail starts</span><svg class="scribble" viewBox="0 0 240 70"></svg></h2>
+    <p class="lede">Third-year <strong>B.Tech Computer Science (AI/ML)</strong> student at Dronacharya Group of Institutions, under AKTU — graduating <strong>2027</strong>. Somewhere between semester exams and 2 a.m. debugging sessions, "I should learn ML" turned into two published papers and a shelf of half-finished side projects that mostly finished anyway.</p>
+    <p class="lede hand" style="margin-top:16px;font-size:1.05rem;color:var(--coral);">psst — edit this bit with what actually pulled you into AI/ML. that's the real "call to adventure."</p>
+  </section>
+ 
+  <section class="chapter reveal" id="tools">
+    <span class="eyebrow hand">chapter two — tools gathered</span>
+    <h2><span class="txt">What's in the pack</span><svg class="scribble" viewBox="0 0 220 70"></svg></h2>
+    <p class="lede">No hero travels empty-handed. These are the tools picked up along the way — some forged in coursework, most forged in production bugs at 1 a.m.</p>
+    <div class="skills-grid">
+      <div class="skill">Python</div>
+      <div class="skill">SQL</div>
+      <div class="skill">TensorFlow / Keras</div>
+      <div class="skill">scikit-learn</div>
+      <div class="skill">BERT fine-tuning</div>
+      <div class="skill">LightGBM · XGBoost</div>
+      <div class="skill">FastAPI · Flask</div>
+      <div class="skill">Firebase</div>
+      <div class="skill">Streamlit</div>
+      <div class="skill">Pandas · NumPy</div>
+      <div class="skill">NLP</div>
+      <div class="skill">Computer Vision</div>
+      <div class="skill">DSA · LeetCode patterns</div>
+    </div>
+  </section>
+ 
+  <section class="chapter reveal" id="trials">
+    <span class="eyebrow hand">chapter three — the road of trials</span>
+    <h2><span class="txt">Every project was a boss fight</span><svg class="scribble" viewBox="0 0 340 70"></svg></h2>
+    <p class="lede">Twelve build logs. Some shipped clean, most fought back — protobuf conflicts, MySQL errors, a PowerShell that refused to cooperate. All of them taught something the tutorials didn't.</p>
+ 
+    <div class="projects">
+      <div class="project">
+        <div class="p-top"><h3>Emotion Detection — Wellness Chatbot</h3><span class="tag">★ flagship</span></div>
+        <p>A full-stack emotional wellness chatbot: a fine-tuned BERT classifier scores PHQ-9 signals, a Qwen2.5-based layer holds the conversation, deployed on FastAPI + Streamlit + Firebase.</p>
+        <div class="stack"><span>BERT</span><span>Qwen2.5</span><span>FastAPI</span><span>Streamlit</span><span>Firebase</span></div>
+        <a class="link" href="https://github.com/nityazijoo/Emotion_detection" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>WayzUp</h3><span class="tag">civic tech</span></div>
+        <p>A civic-tech mapping tool built to surface and route around local issues, combining geospatial data with a simple, usable interface.</p>
+        <div class="stack"><span>Flask</span><span>Streamlit</span><span>SQLite</span><span>Folium</span><span>geopy</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Solar Panel Condition Classifier</h3><span class="tag">computer vision</span></div>
+        <p>Transfer-learning model on EfficientNetB0 classifying solar panel condition across 6 classes from ~900 images — catching degradation before it costs output.</p>
+        <div class="stack"><span>TensorFlow</span><span>Keras</span><span>EfficientNetB0</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Crop Production Prediction</h3><span class="tag">data science</span></div>
+        <p>Streamlit app forecasting crop yield using FAOSTAT data, benchmarked across Random Forest, Gradient Boosting, and Linear Regression.</p>
+        <div class="stack"><span>Random Forest</span><span>Gradient Boosting</span><span>Streamlit</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Tourism Attraction Analytics</h3><span class="tag">multi-task ml</span></div>
+        <p>A multi-task system predicting, classifying, and recommending tourism attractions in one pipeline, using LightGBM and XGBoost.</p>
+        <div class="stack"><span>LightGBM</span><span>XGBoost</span><span>Recommendation</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Insurance Claim Prediction</h3><span class="tag">classification</span></div>
+        <p>Predictive model estimating the likelihood of insurance claims from policyholder data.</p>
+        <div class="stack"><span>scikit-learn</span><span>Pandas</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo/Insurance-Claim-Prediction" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Agricultural Anomaly Detection</h3><span class="tag">data science</span></div>
+        <p>System for flagging irregular patterns in agricultural data — built to catch the outliers that skew every downstream decision.</p>
+        <div class="stack"><span>Anomaly Detection</span><span>Python</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Tennis Analysis</h3><span class="tag">computer vision</span></div>
+        <p>Video-based analysis project tracking player and ball movement to pull structured stats out of raw match footage.</p>
+        <div class="stack"><span>OpenCV</span><span>Python</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo/Tennis-analysis" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Bird Observation</h3><span class="tag">data analysis</span></div>
+        <p>Exploratory analysis of bird observation data — patterns, species distribution, and trends over time.</p>
+        <div class="stack"><span>Pandas</span><span>Visualization</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo/Bird-observation" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+      <div class="project">
+        <div class="p-top"><h3>Food App</h3><span class="tag">full-stack</span></div>
+        <p>A food ordering / discovery application built end-to-end as a full-stack exercise.</p>
+        <div class="stack"><span>Full-stack</span></div>
+        <a class="link" href="https://github.com/nitya-zijoo/food-app" target="_blank" rel="noopener">→ view repo</a>
+      </div>
+    </div>
+  </section>
+ 
+  <section class="chapter reveal" id="allies">
+    <span class="eyebrow hand">chapter four — allies & artifacts</span>
+    <h2><span class="txt">The proof left behind</span><svg class="scribble" viewBox="0 0 260 70"></svg></h2>
+    <p class="lede">Two papers, two rooms full of reviewers, two "yes, publish this."</p>
+    <a class="btn primary" href="https://www.researchgate.net/publication/396993478_Customer_segmentation_for_market_analysis_using_data_mining", target="_blank" rel="noopener"><svg id="btnSvg6"></svg>View ICOTET 2024 paper</a>
+    <div class="papers">
+      <div class="paper">
+        <span class="hand">ICOTET 2024</span>
+        <h3>Customer Segmentation</h3>
+        <p>Conference paper on customer segmentation techniques — presented at ICOTET 2024.</p>
+        <a class="btn" href="https://www.researchgate.net/publication/396993478_Customer_segmentation_for_market_analysis_using_data_mining" target="_blank" rel="noopener"><svg id="btnSvg6"></svg>View paper</a>
+      </div>
+      <div class="paper">
+        <span class="hand">IC-AIDA 2026 · IEEE co-sponsored</span>
+        <h3>Blockchain–AI for Cybersecurity</h3>
+        <p>Random Forest–based anomaly detection across 14,133 scenarios, hitting 95.68% accuracy — combining blockchain integrity guarantees with AI-driven threat detection.</p>
+        <a class="btn" href="https://www.researchgate.net/publication/407608481_Synergy_of_Blockchain_and_Artificial_Intelligence_for_Adaptive_Cybersecurity_A_Decentralized_Intelligence_Framework" target="_blank" rel="noopener"><svg id="btnSvg7"></svg>View paper</a>
+      </div>
+    </div>
+  </section>
+ 
+  <footer id="return">
+    <span class="eyebrow hand">chapter five — the return</span>
+    <h2><span class="txt">Bring your hardest dataset.</span><svg class="scribble" viewBox="0 0 300 70"></svg></h2>
+    <p>Open to Data Science, Machine Learning, and Data Engineering internships and fresher roles. Always happy to talk about a gnarly bug or a good paper.</p>
+    <div class="contact-row">
+      <a class="btn primary" id="ctaEmail" href="mailto:your.email@example.com"><svg id="btnSvg3"></svg>Email me</a>
+      <a class="btn" href="https://github.com/nitya-zijoo" target="_blank" rel="noopener"><svg id="btnSvg4"></svg>GitHub</a>
+      <a class="btn" href="https://linkedin.com/in/nitya-zijoo" target="_blank" rel="noopener"><svg id="btnSvg5"></svg>LinkedIn</a>
+    </div>
+    <div class="fine">edit-me → swap in your real email + LinkedIn above. built line by line, wobble by wobble.</div>
+  </footer>
+ 
+</main>
+ 
+<canvas id="confetti"></canvas>
+<svg id="buddy" viewBox="0 0 100 100"></svg>
+<div id="buddy-bubble"></div>
+ 
+<script>
+const rc_ = (typeof rough !== 'undefined');
+ 
+/* ---------- hand-drawn button borders ---------- */
+function sketchButton(svgId, color){
+  const el = document.getElementById(svgId);
+  const btn = el.closest('.btn');
+  function draw(){
+    if(!rc_) return;
+    el.innerHTML = '';
+    const w = btn.offsetWidth, h = btn.offsetHeight;
+    el.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    const r = rough.svg(el);
+    const shape = r.rectangle(2,2,w-4,h-4,{
+      roughness:2.2, stroke:color||'#232136', strokeWidth:2.5, fill:'transparent', bowing:2
+    });
+    el.appendChild(shape);
+  }
+  draw();
+  btn.addEventListener('mouseenter', draw);
+  window.addEventListener('resize', draw);
+}
+window.addEventListener('load', ()=>{
+  sketchButton('btnSvg1', '#232136');
+  sketchButton('btnSvg2', '#232136');
+  sketchButton('btnSvg3', '#232136');
+  sketchButton('btnSvg4', '#232136');
+  sketchButton('btnSvg5', '#232136');
+});
+ 
+/* ---------- scribble circle behind headings on reveal ---------- */
+function sketchScribble(svg){
+  if(!rc_) return;
+  const w = svg.viewBox.baseVal.width, h = svg.viewBox.baseVal.height;
+  const r = rough.svg(svg);
+  const el = r.ellipse(w/2, h/2, w-10, h-16, {
+    roughness:2.6, stroke:'#FFC93C', strokeWidth:5, fill:'transparent', bowing:3, curveFitting:0.9
+  });
+  svg.appendChild(el);
+}
+ 
+/* ---------- squiggly vertical progress path ---------- */
+function buildSquiggle(){
+  const svg = document.getElementById('squiggle-svg');
+  const docH = document.body.scrollHeight;
+  svg.setAttribute('height', docH);
+  svg.setAttribute('viewBox', `0 0 40 ${docH}`);
+  svg.innerHTML = '';
+  let d = `M20,0 `;
+  const step = 90;
+  for(let y=step; y<docH; y+=step){
+    const x = 20 + (Math.sin(y/140)*14);
+    d += `Q${x + (Math.random()>0.5?8:-8)},${y-step/2} 20,${y} `;
+  }
+  const bg = document.createElementNS('http://www.w3.org/2000/svg','path');
+  bg.setAttribute('d', d);
+  bg.setAttribute('stroke', 'rgba(35,33,54,0.15)');
+  bg.setAttribute('stroke-width', '3');
+  bg.setAttribute('fill', 'none');
+  bg.setAttribute('stroke-linecap', 'round');
+  svg.appendChild(bg);
+ 
+  const fg = document.createElementNS('http://www.w3.org/2000/svg','path');
+  fg.setAttribute('d', d);
+  fg.setAttribute('stroke', '#FF6B6B');
+  fg.setAttribute('stroke-width', '3');
+  fg.setAttribute('fill', 'none');
+  fg.setAttribute('stroke-linecap', 'round');
+  fg.id = 'squiggle-fg';
+  svg.appendChild(fg);
+ 
+  const len = fg.getTotalLength();
+  fg.style.strokeDasharray = len;
+  fg.style.strokeDashoffset = len;
+  return {fg, len, docH};
+}
+let squiggleState = null;
+function updateSquiggle(){
+  if(!squiggleState) return;
+  const {fg, len, docH} = squiggleState;
+  const scrolled = window.scrollY + window.innerHeight*0.5;
+  const progress = Math.min(Math.max(scrolled/docH,0),1);
+  fg.style.strokeDashoffset = len*(1-progress);
+}
+window.addEventListener('load', ()=>{ squiggleState = buildSquiggle(); updateSquiggle(); });
+window.addEventListener('resize', ()=>{ squiggleState = buildSquiggle(); updateSquiggle(); });
+window.addEventListener('scroll', updateSquiggle);
+ 
+/* ---------- reveal + heading scribbles ---------- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      const h2 = e.target.querySelector('h2');
+      if(h2 && !h2.classList.contains('in')){
+        h2.classList.add('in');
+        const scribble = h2.querySelector('.scribble');
+        if(scribble) sketchScribble(scribble);
+      }
+    }
+  });
+}, {threshold:0.25});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+ 
+/* ---------- mascot buddy: eyes track cursor, blinks, click reacts ---------- */
+(function(){
+  const svg = document.getElementById('buddy');
+  const bubble = document.getElementById('buddy-bubble');
+  svg.innerHTML = `
+    <ellipse cx="50" cy="55" rx="38" ry="34" fill="#FF6B6B" stroke="#232136" stroke-width="3"/>
+    <circle id="eyeL" cx="38" cy="50" r="9" fill="#FFFDF9" stroke="#232136" stroke-width="2"/>
+    <circle id="eyeR" cx="64" cy="50" r="9" fill="#FFFDF9" stroke="#232136" stroke-width="2"/>
+    <circle id="pupilL" cx="38" cy="50" r="4" fill="#232136"/>
+    <circle id="pupilR" cx="64" cy="50" r="4" fill="#232136"/>
+    <path id="mouth" d="M40,68 Q51,76 62,68" stroke="#232136" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="18" cy="60" rx="6" ry="4" fill="#FFC93C" opacity="0.85" transform="rotate(-20 18 60)"/>
+    <ellipse cx="84" cy="60" rx="6" ry="4" fill="#FFC93C" opacity="0.85" transform="rotate(20 84 60)"/>
+  `;
+  const pupilL = svg.querySelector('#pupilL'), pupilR = svg.querySelector('#pupilR');
+  const eyeL = svg.querySelector('#eyeL'), eyeR = svg.querySelector('#eyeR');
+  const mouth = svg.querySelector('#mouth');
+ 
+  window.addEventListener('mousemove', (e)=>{
+    const rect = svg.getBoundingClientRect();
+    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    const angle = Math.atan2(e.clientY-cy, e.clientX-cx);
+    const dist = 3.4;
+    [[pupilL,eyeL],[pupilR,eyeR]].forEach(([p,eye])=>{
+      const ex = parseFloat(eye.getAttribute('cx')), ey = parseFloat(eye.getAttribute('cy'));
+      p.setAttribute('cx', ex + Math.cos(angle)*dist);
+      p.setAttribute('cy', ey + Math.sin(angle)*dist);
+    });
+  });
+ 
+  function blink(){
+    eyeL.setAttribute('ry','1'); eyeR.setAttribute('ry','1');
+    pupilL.setAttribute('ry','1'); pupilR.setAttribute('ry','1');
+    setTimeout(()=>{
+      eyeL.removeAttribute('ry'); eyeR.removeAttribute('ry');
+      pupilL.removeAttribute('ry'); pupilR.removeAttribute('ry');
+    }, 120);
+    setTimeout(blink, 2200 + Math.random()*2600);
+  }
+  setTimeout(blink, 1800);
+ 
+  const phrases = [
+    "hi! I'm rooting for you 🍅",
+    "psst, scroll for the good part",
+    "she really shipped 12 projects",
+    "hire her, she debugs at 2am",
+    "☆ that button below is fun too"
+  ];
+  svg.addEventListener('click', ()=>{
+    svg.style.transform = 'scale(0.85) rotate(-6deg)';
+    mouth.setAttribute('d','M42,70 Q51,60 60,70');
+    setTimeout(()=>{ svg.style.transform=''; mouth.setAttribute('d','M40,68 Q51,76 62,68'); }, 220);
+    bubble.textContent = phrases[Math.floor(Math.random()*phrases.length)];
+    bubble.classList.add('show');
+    clearTimeout(svg._t);
+    svg._t = setTimeout(()=>bubble.classList.remove('show'), 2600);
+  });
+})();
+ 
+/* ---------- confetti burst on email click ---------- */
+(function(){
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  canvas.style.position='fixed'; canvas.style.inset='0'; canvas.style.zIndex='300'; canvas.style.pointerEvents='none';
+  function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const colors = ['#FF6B6B','#FFC93C','#3FA672','#5B8DEF'];
+  let particles = [];
+  function burst(x,y){
+    for(let i=0;i<50;i++){
+      particles.push({
+        x, y, vx:(Math.random()-0.5)*9, vy:Math.random()*-9-2,
+        g:0.35, size:5+Math.random()*4, color:colors[i%colors.length],
+        rot:Math.random()*Math.PI, vr:(Math.random()-0.5)*0.3, life:0
+      });
+    }
+    requestAnimationFrame(tick);
+  }
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.vy += p.g; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life++;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+      ctx.restore();
+    });
+    particles = particles.filter(p=>p.life<120 && p.y<canvas.height+50);
+    if(particles.length) requestAnimationFrame(tick);
+  }
+  const emailBtn = document.getElementById('ctaEmail');
+  if(emailBtn){
+    emailBtn.addEventListener('click', (e)=>{
+      burst(e.clientX, e.clientY);
+    });
+  }
+})();
+</script>
+ 
+</body>
+</html>
