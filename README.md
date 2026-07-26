@@ -2,7 +2,7 @@
 
 A single-page, story-driven portfolio built like a hero's journey — hand-drawn, interactive, and definitely not a template.
 
-**[https://nitya-zijoo.github.io/Portfolio/](#)** 
+https://nitya-zijoo.github.io/Portfolio/ 
 
 ## What's inside
 
