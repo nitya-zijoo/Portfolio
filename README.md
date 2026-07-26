@@ -37,4 +37,4 @@ Two conference papers (ICOTET 2024, IC-AIDA 2026 · IEEE co-sponsored).
 Open to Data Science / ML / Data Engineering internships and fresher roles.
 
 - GitHub: [@nitya-zijoo](https://github.com/nitya-zijoo)
-- LinkedIn: (https://www.linkedin.com/in/nitya-zijoo/)
+- LinkedIn: https://www.linkedin.com/in/nitya-zijoo/
